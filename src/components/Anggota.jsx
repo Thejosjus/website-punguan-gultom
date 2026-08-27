@@ -4,13 +4,6 @@ import {
   saveMembers,
 } from '../utils/storage'
 
-const WILAYAH_OPTIONS = [
-  'Jakarta Selatan',
-  'Jakarta Timur',
-  'Bekasi',
-  'Tangerang',
-]
-
 const STATUS_OPTIONS = [
   'Hula-Hula',
   'Boru',
@@ -57,6 +50,9 @@ function Anggota() {
 
   const filteredMembers = useMemo(() => {
     const keyword = search.trim().toLowerCase()
+    const wilayahKeyword = filterWilayah
+      .trim()
+      .toLowerCase()
 
     return members.filter((member) => {
       const namaSuami = String(
@@ -75,16 +71,21 @@ function Anggota() {
         member.alamat || ''
       ).toLowerCase()
 
+      const wilayah = String(
+        member.wilayah || ''
+      ).toLowerCase()
+
       const matchesSearch =
         keyword === '' ||
         namaSuami.includes(keyword) ||
         namaIstri.includes(keyword) ||
         noHp.includes(keyword) ||
-        alamat.includes(keyword)
+        alamat.includes(keyword) ||
+        wilayah.includes(keyword)
 
       const matchesWilayah =
-        filterWilayah === '' ||
-        member.wilayah === filterWilayah
+        wilayahKeyword === '' ||
+        wilayah.includes(wilayahKeyword)
 
       const matchesStatus =
         filterStatus === '' ||
@@ -174,8 +175,8 @@ function Anggota() {
     }
 
     // Validasi wilayah
-    if (!form.wilayah) {
-      alert('Wilayah wajib dipilih.')
+    if (!form.wilayah.trim()) {
+      alert('Wilayah wajib diisi.')
       return
     }
 
@@ -219,7 +220,7 @@ function Anggota() {
           jumlahAnak,
           alamat: form.alamat.trim(),
           noHp: form.noHp.trim(),
-          wilayah: form.wilayah,
+          wilayah: form.wilayah.trim(),
           status: form.status,
         }
       })
@@ -248,7 +249,7 @@ function Anggota() {
       jumlahAnak,
       alamat: form.alamat.trim(),
       noHp: form.noHp.trim(),
-      wilayah: form.wilayah,
+      wilayah: form.wilayah.trim(),
       status: form.status,
     }
 
@@ -444,7 +445,7 @@ function Anggota() {
             <input
               type="text"
               value={search}
-              placeholder="Cari nama, No. HP, alamat..."
+              placeholder="Cari nama, No. HP, alamat, wilayah..."
               onChange={(event) =>
                 setSearch(event.target.value)
               }
@@ -458,25 +459,14 @@ function Anggota() {
               Wilayah
             </label>
 
-            <select
+            <input
+              type="text"
               value={filterWilayah}
+              placeholder="Cari wilayah..."
               onChange={(event) =>
                 setFilterWilayah(event.target.value)
               }
-            >
-              <option value="">
-                Semua Wilayah
-              </option>
-
-              {WILAYAH_OPTIONS.map((wilayah) => (
-                <option
-                  key={wilayah}
-                  value={wilayah}
-                >
-                  {wilayah}
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
           {/* STATUS */}
@@ -794,29 +784,23 @@ function Anggota() {
 
                   {/* WILAYAH */}
 
-                  <div className="form-group">
+                  <div className="form-group form-group-full">
                     <label>
                       Wilayah *
                     </label>
 
-                    <select
+                    <textarea
                       name="wilayah"
                       value={form.wilayah}
                       onChange={handleChange}
-                    >
-                      <option value="">
-                        Pilih Wilayah
-                      </option>
+                      placeholder="Masukkan wilayah secara manual, contoh: Jakarta Selatan"
+                      rows={3}
+                    />
 
-                      {WILAYAH_OPTIONS.map((wilayah) => (
-                        <option
-                          key={wilayah}
-                          value={wilayah}
-                        >
-                          {wilayah}
-                        </option>
-                      ))}
-                    </select>
+                    <small>
+                      Wilayah dapat diisi secara manual sesuai
+                      pembagian wilayah punguan.
+                    </small>
                   </div>
 
                   {/* STATUS */}
