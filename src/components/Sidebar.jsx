@@ -1,3 +1,8 @@
+// =========================================
+// SIDEBAR
+// Sistem Informasi Punguan Gultom
+// =========================================
+
 function Sidebar({ activeMenu, setActiveMenu }) {
   const menuItems = [
     {
@@ -19,6 +24,10 @@ function Sidebar({ activeMenu, setActiveMenu }) {
     {
       name: 'Kegiatan',
       icon: '◷',
+    },
+    {
+      name: 'Admin',
+      icon: '⚙️',
     },
   ]
 
@@ -51,8 +60,9 @@ function Sidebar({ activeMenu, setActiveMenu }) {
 
       </div>
 
+
       {/* =========================================
-          MENU
+          MENU UTAMA
       ========================================= */}
 
       <nav className="sidebar-menu">
@@ -62,8 +72,10 @@ function Sidebar({ activeMenu, setActiveMenu }) {
         </div>
 
         {menuItems.map((item) => (
+
           <button
             key={item.name}
+            type="button"
             className={`menu-item ${
               activeMenu === item.name ? 'active' : ''
             }`}
@@ -79,9 +91,11 @@ function Sidebar({ activeMenu, setActiveMenu }) {
             </span>
 
           </button>
+
         ))}
 
       </nav>
+
 
       {/* =========================================
           ARSIP
@@ -93,9 +107,15 @@ function Sidebar({ activeMenu, setActiveMenu }) {
           Arsip
         </div>
 
+
+        {/* AD / ART */}
+
         <button
+          type="button"
           className={`menu-item ${
-            activeMenu === 'AD/RT' ? 'active' : ''
+            activeMenu === 'AD/RT'
+              ? 'active'
+              : ''
           }`}
           onClick={() => setActiveMenu('AD/RT')}
         >
@@ -110,11 +130,19 @@ function Sidebar({ activeMenu, setActiveMenu }) {
 
         </button>
 
+
+        {/* DOKUMEN PENTING */}
+
         <button
+          type="button"
           className={`menu-item ${
-            activeMenu === 'Dokumen Penting' ? 'active' : ''
+            activeMenu === 'Dokumen Penting'
+              ? 'active'
+              : ''
           }`}
-          onClick={() => setActiveMenu('Dokumen Penting')}
+          onClick={() =>
+            setActiveMenu('Dokumen Penting')
+          }
         >
 
           <span className="menu-icon">
@@ -129,13 +157,15 @@ function Sidebar({ activeMenu, setActiveMenu }) {
 
       </nav>
 
+
       {/* =========================================
           SIDEBAR FOOTER
       ========================================= */}
 
       <div className="sidebar-footer">
 
-        <div className="footer-line"></div>
+        <div className="footer-line">
+        </div>
 
         <div className="admin-name">
           Admin Organisasi
